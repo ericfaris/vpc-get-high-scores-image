@@ -10,6 +10,8 @@ jobs:
   build:
     name: Build exe
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Check out the repo
       uses: actions/checkout@v2
@@ -23,4 +25,9 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: high-score-get
-        path: src/dist/windows
+        path: dist/windows
+
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/windows/high-score-get.*"
+        token: ${{ secrets.GH_TOKEN }}
