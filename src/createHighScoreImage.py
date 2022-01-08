@@ -29,7 +29,7 @@ headers = {
 tables = (requests.request("GET", scoreUri, headers=headers)).json()
 scoreList = ''
 
-if len(scoreList) > 0:
+if len(tables) > 0:
   for score in tables[0]['scores'][:5]:
     if score.get('user'):
       scoreList += score['user']['username'] + "\t\t" + str(score['score']) + '\n'
