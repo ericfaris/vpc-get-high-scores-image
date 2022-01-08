@@ -31,4 +31,4 @@ jobs:
         artifacts: "src/dist/windows/vpc-get-high-scores-image.exe"
         token: ${{ secrets.GH_TOKEN }}
         commit: ${{ github.sha }}
-        tag: v0.5.1
+        tag: v0.5.2s
