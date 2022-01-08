@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['src\\createHighScoreImage.py'],
+a = Analysis(['createHighScoreImage.py'],
              pathex=['C:\\Python37\\Lib\\site-packages'],
              binaries=[],
              datas=[],

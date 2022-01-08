@@ -1,4 +1,4 @@
-name: Build GUI exe with Pyinstaller
+name: Build exe with Pyinstaller
 
 on:
   push:
@@ -8,19 +8,19 @@ on:
 
 jobs:
   build:
-    name: Build .exe
+    name: Build exe
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
+    - name: Check out the repo
+      uses: actions/checkout@v2
 
-      - name: Package Application
-        uses: JackMcKew/pyinstaller-action-windows@main
-        with:
-          path: /src
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-windows@main
+      with:
+        path: src
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: high-score-get
-          path: dist/windows
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: high-score-get
+        path: src/dist/windows
