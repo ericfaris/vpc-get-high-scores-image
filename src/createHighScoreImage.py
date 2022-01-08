@@ -3,7 +3,7 @@ import json
 import base64
 import sys
 import urllib.parse
-
+from datetime import datetime
 class Score():          # leave this empty
     def __init__(self):   # constructor function using self
         self.Username = None  # variable using self.
@@ -58,6 +58,7 @@ else:
   scoreList += "tableName: " + tableName + "\n"
   scoreList += "authorName: " + authorName + "\n"
 
+scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
 print(scoreList)
 
 payload = json.dumps({
