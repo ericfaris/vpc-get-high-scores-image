@@ -25,11 +25,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: high-score-get
-        path: dist/windows
+        path: ./dist/windows
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "dist/windows/high-score-get.*"
+        artifacts: "./dist/windows/high-score-get.*"
         token: ${{ secrets.GH_TOKEN }}
         commit: ${{ github.sha }}
         tag: v0.1.0
