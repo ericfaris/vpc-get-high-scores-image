@@ -1,0 +1,26 @@
+name: Build GUI exe with Pyinstaller
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build .exe
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Package Application
+        uses: JackMcKew/pyinstaller-action-windows@main
+        with:
+          path: src
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-app
+          path: dist/windows
