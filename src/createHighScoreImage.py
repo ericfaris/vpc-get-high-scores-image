@@ -11,8 +11,8 @@ if len(sys.argv) > 1:
   path = sys.argv[3]
   numRows = int(sys.argv[4])
 else:
-  tableName = "Fog, The (Gottlieb 1979)"
-  authorName = "HiRez00"
+  tableName = "Judge Dredd (Bally 1993)"
+  authorName = "VPW"
   path = "c:\\temp"
   numRows = 5
 
@@ -32,17 +32,18 @@ scoreList += "Author: " + authorName + "\n\n"
 
 if len(tables) > 0:
   limitedList = tables[0]['scores'][:numRows]
-  rankMaxLength = len(str("Rank"))
-  userNameMaxLen = max(len(x['user']['username']) for x in limitedList)
-  scoreMaxLen = max(len(str("{:,}".format(x['score']))) for x in limitedList)
-  postedMaxLen = max(len(x['posted']) for x in limitedList)
-
-  scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Posted" + '\n'       
-  scoreList += "".ljust(rankMaxLength, "-") + "  " + "".ljust(userNameMaxLen, "-") + "    " + "".rjust(scoreMaxLen, "-") + "    " + "".ljust(postedMaxLen, "-") + '\n'       
-
-  i = 1
 
   if len(tables[0]['scores']) > 0:
+    rankMaxLength = len(str("Rank"))
+    userNameMaxLen = max(len(x['user']['username']) for x in limitedList)
+    scoreMaxLen = max(len(str("{:,}".format(x['score']))) for x in limitedList)
+    postedMaxLen = max(len(x['posted']) for x in limitedList)
+
+    scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Posted" + '\n'       
+    scoreList += "".ljust(rankMaxLength, "-") + "  " + "".ljust(userNameMaxLen, "-") + "    " + "".rjust(scoreMaxLen, "-") + "    " + "".ljust(postedMaxLen, "-") + '\n'       
+
+    i = 1
+
     numRows = min(numRows, len(tables[0]['scores']) ) 
 
     for score in limitedList:
@@ -52,7 +53,7 @@ if len(tables) > 0:
         scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(score['score'])).rjust(scoreMaxLen) + "    " + score['posted'] + '\n'       
         i = i + 1
   else:
-    scoreList += "No scores have been posted for this table and author."
+    scoreList += "No scores have been posted for this table and author.\n\n"
 else:
   scoreList += "Table and Author not found.  Double check these fields in Popper.\n\n"
 
