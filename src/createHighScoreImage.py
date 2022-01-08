@@ -19,6 +19,7 @@ else:
 apiBaseUri = "http://vpcbot.golandry.net:6080/api/v1/"
 convertUri = apiBaseUri + "convert"
 scoreUri = apiBaseUri + "scoresByTableAndAuthor?tableName=" + urllib.parse.quote(tableName) + "&authorName=" + urllib.parse.quote(authorName)
+print(scoreUri)
 
 headers = {
   'Authorization': 'Bearer ODYwMzEwODgxNTc3NDY3OTA0.YN5Y8Q.0P5EwvlXHG6YOtNfkWKt_xOFTtc',
@@ -36,6 +37,8 @@ else:
   scoreList += "tableName and authorName not found.\n\n"
   scoreList += "tableName: " + tableName + "\n"
   scoreList += "authorName: " + authorName + "\n"
+
+print(scoreList)
 
 payload = json.dumps({
   "text": scoreList
