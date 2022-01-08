@@ -31,5 +31,5 @@ jobs:
       with:
         artifacts: "dist/windows/high-score-get.*"
         token: ${{ secrets.GH_TOKEN }}
-        commit: ${GITHUB_SHA}
+        commit: ${{ github.sha }}
         tag: v0.1.0
