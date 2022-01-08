@@ -3,8 +3,6 @@ name: Build exe with Pyinstaller
 on:
   push:
     branches: [ main ]
-    tags:
-    - '*'
 
   workflow_dispatch:
 
@@ -33,4 +31,5 @@ jobs:
       with:
         artifacts: "dist/windows/high-score-get.*"
         token: ${{ secrets.GH_TOKEN }}
-        commit: $GITHUB_SHA
+        commit: ${GITHUB_SHA}
+        tag: ${GITHUB_SHA}
