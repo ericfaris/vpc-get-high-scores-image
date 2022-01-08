@@ -4,29 +4,21 @@ import base64
 import sys
 import urllib.parse
 from datetime import datetime
-class Score():          # leave this empty
-    def __init__(self):   # constructor function using self
-        self.Username = None  # variable using self.
-        self.Score = None  # variable using self
 
 if len(sys.argv) > 1:
   tableName = sys.argv[1]
   authorName = sys.argv[2]
   path = sys.argv[3]
   listLength = sys.argv[4]
-  fileName = sys.argv[1] + "_highscore.png"
 else:
   tableName = "Fog, The (Gottlieb 1979)"
-  authorName = "HiRez00"
+  authorName = "VPW"
   path = "c:\\temp"
   listLength = 5
-  fileName = tableName + "_highscore.png"
-
 
 apiBaseUri = "http://vpcbot.golandry.net:6080/api/v1/"
 convertUri = apiBaseUri + "convert"
 scoreUri = apiBaseUri + "scoresByTableAndAuthor?tableName=" + urllib.parse.quote(tableName) + "&authorName=" + urllib.parse.quote(authorName)
-print(scoreUri)
 
 headers = {
   'Authorization': 'Bearer ODYwMzEwODgxNTc3NDY3OTA0.YN5Y8Q.0P5EwvlXHG6YOtNfkWKt_xOFTtc',
@@ -34,7 +26,9 @@ headers = {
 }
 
 tables = (requests.request("GET", scoreUri, headers=headers)).json()
-scoreList = ''
+
+scoreList = "Table: " + tableName + "\n"
+scoreList += "Author: " + authorName + "\n\n"
 
 if len(tables) > 0:
   rankMaxLength = len(str("Rank"))
@@ -54,12 +48,9 @@ if len(tables) > 0:
       scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(score['score'])).rjust(scoreMaxLen) + "    " + score['posted'] + '\n'       
       i = i + 1
 else:
-  scoreList += "tableName and authorName not found.\n\n"
-  scoreList += "tableName: " + tableName + "\n"
-  scoreList += "authorName: " + authorName + "\n"
+  scoreList += "Table and Author not found.  Double check these fields in Popper.\n\n"
 
 scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-print(scoreList)
 
 payload = json.dumps({
   "text": scoreList
@@ -68,5 +59,5 @@ payload = json.dumps({
 res = requests.request("POST", convertUri, headers=headers, data=payload)
 imageString = res.text.replace('data:image/png;base64,', '')
 
-with open(path + "\\" + fileName, "wb") as fh:
+with open(path + "\\" + tableName + ".png", "wb") as fh:
     fh.write(base64.decodebytes(imageString.encode()))
