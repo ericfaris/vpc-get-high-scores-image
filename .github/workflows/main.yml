@@ -24,12 +24,12 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: high-score-get
+        name: createHighScoreImage.exe
         path: ./dist/windows
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "./dist/windows/high-score-get.*"
+        artifacts: "./dist/windows/createHighScoreImage.exe"
         token: ${{ secrets.GH_TOKEN }}
         commit: ${{ github.sha }}
-        tag: v0.1.0
+        tag: v0.1.1
