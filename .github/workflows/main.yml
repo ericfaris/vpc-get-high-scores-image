@@ -17,10 +17,10 @@ jobs:
       - name: Package Application
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
-          path: ./src
+          path: /src
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: my-app
+          name: high-score-get
           path: dist/windows
