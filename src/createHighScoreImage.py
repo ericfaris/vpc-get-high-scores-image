@@ -7,13 +7,11 @@ import urllib.parse
 if len(sys.argv) > 1:
   tableName = sys.argv[1]
   authorName = sys.argv[2]
-  version = sys.argv[3]
-  path = sys.argv[4]
+  path = sys.argv[3]
   fileName = sys.argv[1] + "_highscore.png"
 else:
   tableName = "Fog, The (Gottlieb 1979)"
   authorName = "HiRez00"
-  version = ''
   path = "c:\\temp"
   fileName = tableName + "_highscore.png"
 
