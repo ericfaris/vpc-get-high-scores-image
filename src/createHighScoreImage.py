@@ -9,12 +9,12 @@ if len(sys.argv) > 1:
   tableName = sys.argv[1]
   authorName = sys.argv[2]
   path = sys.argv[3]
-  listLength = sys.argv[4]
+  numRows = sys.argv[4]
 else:
   tableName = "Fog, The (Gottlieb 1979)"
-  authorName = "VPW"
+  authorName = "HiRez00"
   path = "c:\\temp"
-  listLength = 5
+  numRows = 5
 
 apiBaseUri = "http://vpcbot.golandry.net:6080/api/v1/"
 convertUri = apiBaseUri + "convert"
@@ -28,29 +28,35 @@ headers = {
 tables = (requests.request("GET", scoreUri, headers=headers)).json()
 
 scoreList = "Table: " + tableName + "\n"
-scoreList += "Author: " + authorName + "\n\n"
+scoreList += "Author:                                                            " + authorName + "\n\n"
 
 if len(tables) > 0:
   rankMaxLength = len(str("Rank"))
-  userNameMaxLen = max(len(x['user']['username']) for x in tables[0]['scores'][:listLength])
-  scoreMaxLen = max(len(str("{:,}".format(x['score']))) for x in tables[0]['scores'][:listLength])
-  postedMaxLen = max(len(x['posted']) for x in tables[0]['scores'][:listLength])
+  userNameMaxLen = max(len(x['user']['username']) for x in tables[0]['scores'][:numRows])
+  scoreMaxLen = max(len(str("{:,}".format(x['score']))) for x in tables[0]['scores'][:numRows])
+  postedMaxLen = max(len(x['posted']) for x in tables[0]['scores'][:numRows])
 
   scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Posted" + '\n'       
   scoreList += "".ljust(rankMaxLength, "-") + "  " + "".ljust(userNameMaxLen, "-") + "    " + "".rjust(scoreMaxLen, "-") + "    " + "".ljust(postedMaxLen, "-") + '\n'       
 
   i = 1
 
-  for score in tables[0]['scores'][:listLength]:
-    if score.get('user'):
-      userNameLen = len(score['user']['username'])
-      scoreLen = len(str(score['score']))
-      scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(score['score'])).rjust(scoreMaxLen) + "    " + score['posted'] + '\n'       
-      i = i + 1
+  if len(tables[0]['scores']) > 0:
+    numRows = min(numRows, len(tables[0]['scores']) ) 
+
+    for score in tables[0]['scores'][:numRows]:
+      if score.get('user'):
+        userNameLen = len(score['user']['username'])
+        scoreLen = len(str(score['score']))
+        scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(score['score'])).rjust(scoreMaxLen) + "    " + score['posted'] + '\n'       
+        i = i + 1
+  else:
+    scoreList += "No scores have been posted for this table and author."
 else:
   scoreList += "Table and Author not found.  Double check these fields in Popper.\n\n"
 
 scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+print(scoreList)
 
 payload = json.dumps({
   "text": scoreList
