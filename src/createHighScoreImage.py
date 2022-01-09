@@ -5,16 +5,45 @@ import sys
 import urllib.parse
 from datetime import datetime
 import sqlite3
+import logging
+from logging.handlers import RotatingFileHandler
+import time
+
+apiBaseUri = "http://vpcbot.golandry.net:6080/api/v1/"
+convertUri = apiBaseUri + "convert"
+headers = {
+  'Authorization': 'Bearer ODYwMzEwODgxNTc3NDY3OTA0.YN5Y8Q.0P5EwvlXHG6YOtNfkWKt_xOFTtc',
+  'Content-Type': 'application/json'
+}
+
+def log_setup():
+    logName = 'vpc-get-high-scores-image.log'
+    log_handler = RotatingFileHandler(logName, maxBytes=10000000, backupCount=3)
+    formatter = logging.Formatter(
+        '%(asctime)s | %(levelname)s : %(message)s',
+        '%b %d %H:%M:%S')
+    formatter.converter = time.gmtime  # if you want UTC time
+    log_handler.setFormatter(formatter)
+    logger = logging.getLogger()
+    logger.addHandler(log_handler)
+    logger.setLevel(logging.INFO)
+
+def createImage(scoreList, mediaPath, tableName):
+  payload = json.dumps({
+    "text": scoreList
+  })
+
+  res = requests.request("POST", convertUri, headers=headers, data=payload)
+  imageString = res.text.replace('data:image/png;base64,', '')
+
+  with open(mediaPath + "\\" + tableName + ".png", "wb") as fh:
+      fh.write(base64.decodebytes(imageString.encode()))
 
 def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
-  apiBaseUri = "http://vpcbot.golandry.net:6080/api/v1/"
-  convertUri = apiBaseUri + "convert"
-  scoreUri = apiBaseUri + "scoresByTableAndAuthor?tableName=" + urllib.parse.quote(tableName) + "&authorName=" + urllib.parse.quote(authorName)
+  logging.info(f'----- fetchHighScoreImage Start')
+  logging.info(f'tableName: {tableName}, authorName: {authorName}, numRows: {numRows}, mediaPath: {mediaPath}')
 
-  headers = {
-    'Authorization': 'Bearer ODYwMzEwODgxNTc3NDY3OTA0.YN5Y8Q.0P5EwvlXHG6YOtNfkWKt_xOFTtc',
-    'Content-Type': 'application/json'
-  }
+  scoreUri = apiBaseUri + "scoresByTableAndAuthor?tableName=" + urllib.parse.quote(tableName) + "&authorName=" + urllib.parse.quote(authorName)
 
   tables = (requests.request("GET", scoreUri, headers=headers)).json()
 
@@ -44,54 +73,89 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
     else:
       scoreList += "No scores have been posted for this table and author.\n\n"
   else:
-    scoreList += "Table and Author not found.  Double check these fields in Popper.\n\n"
+    scoreList += "Table and/or Author not found.  Double check these fields in Popper.\n\n"
 
   scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
   print(scoreList + "\n\n")
+  logging.info(f'Result:\n{scoreList}')
 
-  payload = json.dumps({
-    "text": scoreList
-  })
+  createImage(scoreList, mediaPath, tableName)
 
-  res = requests.request("POST", convertUri, headers=headers, data=payload)
-  imageString = res.text.replace('data:image/png;base64,', '')
+  logging.info(f'----- fetchHighScoreImage End')
 
-  with open(mediaPath + "\\" + tableName + ".png", "wb") as fh:
-      fh.write(base64.decodebytes(imageString.encode()))
+
+log_setup()
+logging.info('--- INSTANCE STARTED ---')
 
 updateAll = False
 numRows = 5
 
-if len(sys.argv) == 4:
-  exeName = sys.argv[0]
-  dbPath = sys.argv[1]
-  mediaPath = sys.argv[2]
-  numRows = int(sys.argv[3])
-  updateAll = True
-elif len(sys.argv) == 5:
-  exeName = sys.argv[0]
-  tableName = sys.argv[1]
-  authorName = sys.argv[2]
-  mediaPath = sys.argv[3]
-  numRows = int(sys.argv[4])
-  updateAll = False
-else:
-  dbPath = "c:\\temp"
-  tableName = "Judge Dredd (Bally 1993)"
-  authorName = "VPW"
-  mediaPath = "c:\\temp"
-  numRows = 5
-  updateAll = True
+try:
+  if len(sys.argv) == 4:
+    logging.info('Found 4 arguments ')
+    exeName = sys.argv[0]
+    dbPath = sys.argv[1]
+    mediaPath = sys.argv[2]
+    numRows = int(sys.argv[3])
+    logging.info(f'exeName: {exeName}, dbPath: {dbPath}, mediaPath: {mediaPath}, numRows: {numRows}')
 
-if updateAll:
-  conn = sqlite3.connect(dbPath + "\\" + "PUPDatabase.db")
-  cur = conn.cursor()
-  cur.execute("SELECT * FROM 'Games' WHERE EMUID = 1")
-  rows = cur.fetchall()   
-  for row in rows:
-      tableName = row[2]
-      authorName = row[20]
-      if tableName and authorName:
-        fetchHighScoreImage(tableName, authorName, numRows, mediaPath)
-else:
-  fetchHighScoreImage(tableName, authorName, numRows, mediaPath)
+    updateAll = True
+    logging.info(f'updateAll: {updateAll}')
+  elif len(sys.argv) == 5:
+    logging.info('Found 5 arguments')
+    exeName = sys.argv[0]
+    tableName = sys.argv[1]
+    authorName = sys.argv[2]
+    mediaPath = sys.argv[3]
+    numRows = int(sys.argv[4])
+    logging.info(f'exeName: {exeName}, tableName: {tableName}, authorName: {authorName}, mediaPath: {mediaPath}, numRows: {numRows}')
+
+    updateAll = False
+    logging.info(f'updateAll: {updateAll}')
+  else:
+    logging.info('Found 0 arguments. Using default arguments for debugging')
+    dbPath = "c:\\temp"
+    tableName = "Judge Dredd (Bally 1993)"
+    authorName = "VPW"
+    mediaPath = "c:\\temp"
+    numRows = 5
+
+    updateAll = True
+    logging.info(f'updateAll: {updateAll}')
+
+  if updateAll:
+    logging.info(f'Starting to update all tables')
+    conn = sqlite3.connect(dbPath + "\\" + "PUPDatabase.db")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM 'Games' WHERE EMUID = 1")
+    rows = cur.fetchall()
+    logging.info(f'Found {str(len(rows))} tables')
+    for row in rows:
+        tableName = row[2]
+        authorName = row[20]
+        if tableName and authorName:
+          fetchHighScoreImage(tableName, authorName, numRows, mediaPath)
+        else:
+          if tableName:
+            scoreList = "Table: " + tableName + "\n"
+          else:
+            scoreList = "Table: \n"  
+          if authorName:
+            scoreList += "Author: " + authorName + "\n\n"
+          else:
+            scoreList += "Author: \n\n"
+          scoreList += "Table and/or Author not found.  Double check these fields in Popper.\n\n"
+          scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+          print(scoreList + "\n\n")
+          logging.info(f'Result:\n{scoreList}')
+          createImage(scoreList, mediaPath, tableName)
+
+    conn.close
+    logging.info(f'Finished updating all tables')
+
+  else:
+    fetchHighScoreImage(tableName, authorName, numRows, mediaPath)
+except Exception as err:
+  logging.exception(err)
+
+logging.info('--- INSTANCE STOPPED ---\n\n')
