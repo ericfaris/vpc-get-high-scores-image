@@ -75,7 +75,7 @@ elif len(sys.argv) == 5:
   mediaPath = sys.argv[3]
   numRows = int(sys.argv[4])
   updateAll = False
-elif len(sys.argv) == 0:
+else:
   dbPath = "c:\\temp"
   tableName = "Judge Dredd (Bally 1993)"
   authorName = "VPW"
