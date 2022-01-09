@@ -47,7 +47,7 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
     scoreList += "Table and Author not found.  Double check these fields in Popper.\n\n"
 
   scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-  print(scoreList)
+  print(scoreList + "\n\n")
 
   payload = json.dumps({
     "text": scoreList
@@ -81,10 +81,10 @@ else:
   authorName = "VPW"
   mediaPath = "c:\\temp"
   numRows = 5
-  updateAll = False
+  updateAll = True
 
 if updateAll:
-  conn = sqlite3.connect(dbPath + "PUPDatabase.db")
+  conn = sqlite3.connect(dbPath + "\\" + "PUPDatabase.db")
   cur = conn.cursor()
   cur.execute("SELECT * FROM 'Games' WHERE EMUID = 1")
   rows = cur.fetchall()   
