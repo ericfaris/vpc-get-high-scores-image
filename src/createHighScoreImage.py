@@ -60,20 +60,22 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
       fh.write(base64.decodebytes(imageString.encode()))
 
 updateAll = False
+numRows = 5
 
-if len(sys.argv) == 3:
+if len(sys.argv) == 4:
+  exeName = sys.argv[0]
   dbPath = sys.argv[1]
   mediaPath = sys.argv[2]
   numRows = int(sys.argv[3])
   updateAll = True
-else:
+elif len(sys.argv) == 5:
+  exeName = sys.argv[0]
   tableName = sys.argv[1]
   authorName = sys.argv[2]
   mediaPath = sys.argv[3]
   numRows = int(sys.argv[4])
   updateAll = False
-
-if len(sys.argv) == 0:
+elif len(sys.argv) == 0:
   dbPath = "c:\\temp"
   tableName = "Judge Dredd (Bally 1993)"
   authorName = "VPW"
