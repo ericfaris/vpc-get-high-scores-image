@@ -27,7 +27,7 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
     if len(tables[0]['scores']) > 0:
       rankMaxLength = len(str("Rank"))
       userNameMaxLen = max(len(x['user']['username']) for x in limitedList)
-      scoreMaxLen = max(len(str("{:,}".format(x['score']))) for x in limitedList)
+      scoreMaxLen = max(len(str("{:,}".format(int(x['score'])))) for x in limitedList)
       postedMaxLen = max(len(x['posted']) for x in limitedList)
 
       scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Posted" + '\n'       
@@ -39,7 +39,7 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
 
       for score in limitedList:
         if score.get('user'):
-          scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(score['score'])).rjust(scoreMaxLen) + "    " + score['posted'] + '\n'       
+          scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(int(score['score']))).rjust(scoreMaxLen) + "    " + score['posted'] + '\n'       
           i = i + 1
     else:
       scoreList += "No scores have been posted for this table and author.\n\n"
