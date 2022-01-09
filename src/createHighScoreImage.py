@@ -66,7 +66,7 @@ if len(sys.argv) == 3:
   mediaPath = sys.argv[2]
   numRows = int(sys.argv[3])
   updateAll = True
-elif len(sys.argv) > 1:
+elif len(sys.argv) == 4:
   tableName = sys.argv[1]
   authorName = sys.argv[2]
   mediaPath = sys.argv[3]
