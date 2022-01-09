@@ -66,13 +66,14 @@ if len(sys.argv) == 3:
   mediaPath = sys.argv[2]
   numRows = int(sys.argv[3])
   updateAll = True
-elif len(sys.argv) == 4:
+else:
   tableName = sys.argv[1]
   authorName = sys.argv[2]
   mediaPath = sys.argv[3]
   numRows = int(sys.argv[4])
   updateAll = False
-else:
+
+if len(sys.argv) == 0:
   dbPath = "c:\\temp"
   tableName = "Judge Dredd (Bally 1993)"
   authorName = "VPW"
