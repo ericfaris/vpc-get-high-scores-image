@@ -13,15 +13,10 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
     
     
 
-2a. Open `GetAllHighScores.bat` and edit line3 to conform to you folder structure.
+3. Open `GetAllHighScores.bat` and edit line3 to conform to you folder structure.
 - "Full path of vpc-get-high-scores-image.exe" "Full path to PinUP System folder" "Full path to your media folder for Other2" "max number of rows to display in score list"
 - Example: `"C:\Pinball\PinUPSystem\Launch\vpc-get-high-scores-image.exe" "C:\Pinball\PinUPSystem" "C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2" "10"`
     
-3. Create a .bat file called `GetAllHighScores.bat` in the `c:\pinball\PinupPopper\LAUNCH` folder.
-
-4. Edit the `GetAllHighScores.bat` to look like the following:
-    - vpc-get-high-scores-image.exe "YOUR PINUP SYSTEM FOLDER" "YOUR OTHER2 MEDIA FOLDER" "10" <--- this is max rows for high scores
-
 5. Create a shortcut to `GetAllHighScores.bat`
 
 6. Copy the shortcut to your Windows startup folder
@@ -29,7 +24,7 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 **Setup scripts to run the vpc-get-high-scores-image.exe**
 
 7. Pinup Popper Setup > Popper Setup Tab > Emulators > Visual Pinball X > Launch Setup Tab
-    - Paste the following at the end of the Launch and Close Scripts:
+    - Paste the following at the end of the **Launch** and **Close** Scripts:
         - `"[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "[GAMENAME]" "[?Author?]" "[MEDIADIR]Other2" 10`
         
 8. Save and Close
