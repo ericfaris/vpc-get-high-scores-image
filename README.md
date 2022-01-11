@@ -8,8 +8,15 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 
 **Setup the batch file to run on Windows startup**
 
-2. Copy the latest version of vpc-get-high-scores-image into the `c:\pinball\PinupPopper\LAUNCH` folder.
+2. Using https://github.com/ericfaris/high-score-get/releases, download the following files to the `c:\pinball\PinupPopper\LAUNCH` folder.
+    - ![image](https://user-images.githubusercontent.com/1703672/148884386-6ab53c8e-c254-44a6-af6f-e38ea9a11d14.png)
+    
+    
 
+2a. Open `GetAllHighScores.bat` and edit line3 to conform to you folder structure.
+- "Full path of vpc-get-high-scores-image.exe" "Full path to PinUP System folder" "Full path to your media folder for Other2" "max number of rows to display in score list"
+- Example: `"C:\Pinball\PinUPSystem\Launch\vpc-get-high-scores-image.exe" "C:\Pinball\PinUPSystem" "C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2" "10"`
+    
 3. Create a .bat file called `GetAllHighScores.bat` in the `c:\pinball\PinupPopper\LAUNCH` folder.
 
 4. Edit the `GetAllHighScores.bat` to look like the following:
