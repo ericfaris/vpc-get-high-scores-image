@@ -4,7 +4,7 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 
 **Instructions**:
 
-1. Confirm correct table name and author within Pinup Popper for every table you want to show high scores.
+1. Confirm correct table name and author within Pinup Popper for every table you want to show high scores. **The table name and author of each table need to match what is in the VPC Discord High Score DB, exactly!**  You will need to make those changes in the Game Manager of "Pinup Popper Setup".
 
 **Setup the batch file to run on Windows startup**
 
