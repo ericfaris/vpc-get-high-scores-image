@@ -90,3 +90,39 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 28. Click Save
 
 29. Close "CVSBrowserForm" window
+
+**Test Getting High Scores**
+
+30. Navigate to the `c:\pinball\PinupPopper\LAUNCH` folder
+
+31. Run `GetAllHighScores.bat`
+    - You should see a cmd window start executing and pulling down the images
+    - You should also be able to check your `C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2` to see the high score images being created.
+
+32. Run PinUP Popper
+
+33. Navigate to a table
+
+34. Press button to display `Other2` that you set in step #20.
+
+
+**High Score Image Explanations**
+
+
+**Problem:** The message indicates that the table name and/or author name does not exist in Popper.
+
+**Solution:** Modify the table name and author name in Popper to exactly match what is found in the VPC high-scores channel.
+
+
+
+
+**Problem:** The message indicates that the table name and/or author name exists in Popper, but was not found in the VPC high-scores database.
+
+**Solution:** Modify the table name and author name in Popper to exactly match what is found in the VPC high-scores channel.
+
+
+
+
+**Problem:** The message indicates that the table and author was a match, but no high scores were found.
+
+**Solution:** Score needs to be added via Discord.
