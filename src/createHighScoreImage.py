@@ -56,8 +56,8 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
     if len(tables[0]['scores']) > 0:
       rankMaxLength = len(str("Rank"))
       userNameMaxLen = max(len(x['user']['username']) for x in limitedList)
-      scoreMaxLen = max(len(str("{:,}".format(int(x['score'])))) for x in limitedList)
-      postedMaxLen = max(len(x['posted']) for x in limitedList)
+      scoreMaxLen = max(max(len(str("{:,}".format(int(x['score'])))) for x in limitedList), len("Score"))
+      postedMaxLen = max(max(len(x['posted']) for x in limitedList), len("Posted"))
 
       scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Posted" + '\n'       
       scoreList += "".ljust(rankMaxLength, "-") + "  " + "".ljust(userNameMaxLen, "-") + "    " + "".rjust(scoreMaxLen, "-") + "    " + "".ljust(postedMaxLen, "-") + '\n'       
@@ -71,9 +71,9 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
           scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(int(score['score']))).rjust(scoreMaxLen) + "    " + score['posted'] + '\n'       
           i = i + 1
     else:
-      scoreList += "No scores have been posted for this table and author.\n\n"
+      scoreList += "No scores have been posted for this \ntable and author.\n\n"
   else:
-    scoreList += "Table and/or Author not found.  Double check these fields in Popper.\n\n"
+    scoreList += "Table and/or Author not found.\nDouble check these fields in Popper.\n\n"
 
   scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
   print(scoreList + "\n\n")
@@ -115,12 +115,11 @@ try:
   else:
     logging.info('Found 0 arguments. Using default arguments for debugging')
     dbPath = "c:\\temp"
-    tableName = "Judge Dredd (Bally 1993)"
+    tableName = "NBA Fastbreak (Bally 1997)"
     authorName = "VPW"
     mediaPath = "c:\\temp"
     numRows = 5
-
-    updateAll = True
+    updateAll = False
     logging.info(f'updateAll: {updateAll}')
 
   if updateAll:
