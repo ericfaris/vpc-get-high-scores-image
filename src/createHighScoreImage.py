@@ -98,7 +98,6 @@ try:
     mediaPath = sys.argv[2]
     numRows = int(sys.argv[3])
     logging.info(f'exeName: {exeName}, dbPath: {dbPath}, mediaPath: {mediaPath}, numRows: {numRows}')
-
     updateAll = True
     logging.info(f'updateAll: {updateAll}')
   elif len(sys.argv) == 5:
@@ -109,7 +108,6 @@ try:
     mediaPath = sys.argv[3]
     numRows = int(sys.argv[4])
     logging.info(f'exeName: {exeName}, tableName: {tableName}, authorName: {authorName}, mediaPath: {mediaPath}, numRows: {numRows}')
-
     updateAll = False
     logging.info(f'updateAll: {updateAll}')
   else:
@@ -119,7 +117,7 @@ try:
     authorName = "VPW"
     mediaPath = "c:\\temp"
     numRows = 5
-    updateAll = False
+    updateAll = True
     logging.info(f'updateAll: {updateAll}')
 
   if updateAll:
@@ -148,10 +146,8 @@ try:
           print(scoreList + "\n\n")
           logging.info(f'Result:\n{scoreList}')
           createImage(scoreList, mediaPath, tableName)
-
     conn.close
     logging.info(f'Finished updating all tables')
-
   else:
     fetchHighScoreImage(tableName, authorName, numRows, mediaPath)
 except Exception as err:
