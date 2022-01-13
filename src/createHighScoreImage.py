@@ -57,10 +57,11 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
       rankMaxLength = len(str("Rank"))
       userNameMaxLen = max(len(x['user']['username']) for x in limitedList)
       scoreMaxLen = max(max(len(str("{:,}".format(int(x['score'])))) for x in limitedList), len("Score"))
+      versionMaxLen = max(max(len(x['versionNumber']) for x in limitedList), len("Version"))
       postedMaxLen = max(max(len(x['posted']) for x in limitedList), len("Posted"))
 
-      scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Posted" + '\n'       
-      scoreList += "".ljust(rankMaxLength, "-") + "  " + "".ljust(userNameMaxLen, "-") + "    " + "".rjust(scoreMaxLen, "-") + "    " + "".ljust(postedMaxLen, "-") + '\n'       
+      scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Version".ljust(versionMaxLen)  + "    " + "Posted" + '\n'       
+      scoreList += "".ljust(rankMaxLength, "-") + "  " + "".ljust(userNameMaxLen, "-") + "    " + "".rjust(scoreMaxLen, "-") + "    " + "".ljust(versionMaxLen, "-") + "    " + "".ljust(postedMaxLen, "-") + '\n'       
 
       i = 1
 
@@ -68,7 +69,7 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
 
       for score in limitedList:
         if score.get('user'):
-          scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(int(score['score']))).rjust(scoreMaxLen) + "    " + score['posted'] + '\n'       
+          scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(int(score['score']))).rjust(scoreMaxLen) + "    " + score['versionNumber'].ljust(versionMaxLen) + "    " + score['posted'] + '\n'       
           i = i + 1
     else:
       scoreList += "No scores have been posted for this \ntable and author.\n\n"
@@ -117,7 +118,7 @@ try:
     authorName = "VPW"
     mediaPath = "c:\\temp"
     numRows = 5
-    updateAll = True
+    updateAll = False
     logging.info(f'updateAll: {updateAll}')
 
   if updateAll:
