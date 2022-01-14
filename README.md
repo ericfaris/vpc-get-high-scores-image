@@ -25,7 +25,7 @@ This tool will pull data and create high score images for PinUP Popper.
 
 7. Pinup Popper Setup > Popper Setup Tab > Emulators > Visual Pinball X > Launch Setup Tab
     - Paste the following at the end of 1. **Launch Script** and 2. **Close Script**:
-        - `"[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "[GAMENAME]" "[?Author?]" "[MEDIADIR]Other2" 10`
+        - `START /min "" "[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "[GAMENAME]" "[?Author?]" "[MEDIADIR]Other2" 10`
         
 8. Save and Close
 
