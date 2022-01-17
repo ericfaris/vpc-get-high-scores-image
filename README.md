@@ -1,6 +1,6 @@
-# high-score-get
+# vpc-get-high-scores-image
 
-This tool will pull high scores for tables that are setup in the Pinup Popper DB.
+This tool will pull data and create high score images for PinUP Popper.
 
 **Instructions**:
 
@@ -8,7 +8,7 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 
 **Setup the batch file to run on Windows startup**
 
-2. Using https://github.com/ericfaris/high-score-get/releases, download the following files to the `c:\pinball\PinupPopper\LAUNCH` folder.
+2. Using https://github.com/ericfaris/vpc-get-high-scores-image/releases, download the following files to the `C:\Pinball\PinUPSystem\PinupPopper\LAUNCH` folder (**IMPORTANT: BE AWARE THE LAUNCH FOLDER MIGHT BE IN A DIFFERENT LOCATION IF YOU HAVE USE BALLER INSTALLER**).
     - ![image](https://user-images.githubusercontent.com/1703672/148884386-6ab53c8e-c254-44a6-af6f-e38ea9a11d14.png)
     
     
@@ -24,8 +24,8 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 **Setup scripts to run the vpc-get-high-scores-image.exe**
 
 7. Pinup Popper Setup > Popper Setup Tab > Emulators > Visual Pinball X > Launch Setup Tab
-    - Paste the following at the end of the **Launch** and **Close** Scripts:
-        - `"[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "[GAMENAME]" "[?Author?]" "[MEDIADIR]Other2" 10`
+    - Paste the following at the end of 1. **Launch Script** and 2. **Close Script**:
+        - `START /min "" "[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "[GAMENAME]" "[?Author?]" "[MEDIADIR]Other2" 10`
         
 8. Save and Close
 
@@ -72,7 +72,7 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 
 **Add menu option to PinUP Popper Operator menu to update all high scores on demand**
 
-23. In File Explorer, navigate to `{YOUR ROOT FOLDER}\PinUPSystem` folder
+23. In File Explorer, navigate to `{YOUR ROOT FOLDER}\PinUPSystem`  folder (**IMPORTANT: BE AWARE THE LAUNCH FOLDER MIGHT BE IN A DIFFERENT LOCATION IF YOU HAVE USE BALLER INSTALLER**)
 
 24. Click on `PopperOperatorEdit.exe`
 
@@ -93,7 +93,7 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 
 **Test Getting High Scores**
 
-30. Navigate to the `c:\pinball\PinupPopper\LAUNCH` folder
+30. Navigate to the `C:\Pinball\PinUPSystem\PinupPopper\LAUNCH` folder
 
 31. Run `GetAllHighScores.bat`
     - You should see a cmd window start executing and pulling down the images
@@ -104,6 +104,7 @@ This tool will pull high scores for tables that are setup in the Pinup Popper DB
 33. Navigate to a table
 
 34. Press button to display `Other2` that you set in step #20.
+
 
 
 **High Score Image Explanations**
