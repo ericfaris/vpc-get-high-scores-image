@@ -114,11 +114,11 @@ try:
   else:
     logging.info('Found 0 arguments. Using default arguments for debugging')
     dbPath = "c:\\temp"
-    tableName = "NBA Fastbreak (Bally 1997)"
+    tableName = "Creature from the Black Lagoon (Bally 1992)"
     authorName = "VPW"
     mediaPath = "c:\\temp"
     numRows = 5
-    updateAll = False
+    updateAll = True
     logging.info(f'updateAll: {updateAll}')
 
   if updateAll:
@@ -129,7 +129,7 @@ try:
     rows = cur.fetchall()
     logging.info(f'Found {str(len(rows))} tables')
     for row in rows:
-        tableName = row[2]
+        tableName = row[4]
         authorName = row[20]
         if tableName and authorName:
           fetchHighScoreImage(tableName, authorName, numRows, mediaPath)
