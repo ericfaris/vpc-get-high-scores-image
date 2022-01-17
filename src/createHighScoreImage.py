@@ -28,7 +28,7 @@ def log_setup():
     logger.addHandler(log_handler)
     logger.setLevel(logging.INFO)
 
-def createImage(scoreList, mediaPath, tableName):
+def createImage(scoreList, mediaPath, gameName):
   payload = json.dumps({
     "text": scoreList
   })
@@ -36,18 +36,19 @@ def createImage(scoreList, mediaPath, tableName):
   res = requests.request("POST", convertUri, headers=headers, data=payload)
   imageString = res.text.replace('data:image/png;base64,', '')
 
-  with open(mediaPath + "\\" + tableName + ".png", "wb") as fh:
+  with open(mediaPath + "\\" + gameName + ".png", "wb") as fh:
       fh.write(base64.decodebytes(imageString.encode()))
 
-def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
+def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
   logging.info(f'----- fetchHighScoreImage Start')
-  logging.info(f'tableName: {tableName}, authorName: {authorName}, numRows: {numRows}, mediaPath: {mediaPath}')
+  logging.info(f'gameName: ${gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, numRows: {numRows}, mediaPath: {mediaPath}')
 
-  scoreUri = apiBaseUri + "scoresByTableAndAuthor?tableName=" + urllib.parse.quote(tableName) + "&authorName=" + urllib.parse.quote(authorName)
+  scoreUri = apiBaseUri + "scoresByTableAndAuthor?tableName=" + urllib.parse.quote(gameDisplay) + "&authorName=" + urllib.parse.quote(authorName)
 
   tables = (requests.request("GET", scoreUri, headers=headers)).json()
 
-  scoreList = "Table: " + tableName + "\n"
+  scoreList = "Game Name: " + gameName + "\n"
+  scoreList = "Screen Name: " + gameDisplay + "\n"
   scoreList += "Author: " + authorName + "\n\n"
 
   if len(tables) > 0:
@@ -80,7 +81,7 @@ def fetchHighScoreImage(tableName, authorName, numRows, mediaPath):
   print(scoreList + "\n\n")
   logging.info(f'Result:\n{scoreList}')
 
-  createImage(scoreList, mediaPath, tableName)
+  createImage(scoreList, mediaPath, gameName)
 
   logging.info(f'----- fetchHighScoreImage End')
 
@@ -104,17 +105,19 @@ try:
   elif len(sys.argv) == 5:
     logging.info('Found 5 arguments')
     exeName = sys.argv[0]
-    tableName = sys.argv[1]
-    authorName = sys.argv[2]
-    mediaPath = sys.argv[3]
-    numRows = int(sys.argv[4])
-    logging.info(f'exeName: {exeName}, tableName: {tableName}, authorName: {authorName}, mediaPath: {mediaPath}, numRows: {numRows}')
+    gameName = sys.argv[1]
+    gameDisplay = sys.argv[2]
+    authorName = sys.argv[3]
+    mediaPath = sys.argv[4]
+    numRows = int(sys.argv[5])
+    logging.info(f'exeName: {exeName}, gameName: ${gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, mediaPath: {mediaPath}, numRows: {numRows}')
     updateAll = False
     logging.info(f'updateAll: {updateAll}')
   else:
     logging.info('Found 0 arguments. Using default arguments for debugging')
     dbPath = "c:\\temp"
-    tableName = "Creature from the Black Lagoon (Bally 1992)"
+    gameName = "Creature from the Black Lagoon (Bally 1992) Psiomicron 1.2"
+    gameDisplay = "Creature from the Black Lagoon (Bally 1992)"
     authorName = "VPW"
     mediaPath = "c:\\temp"
     numRows = 5
@@ -129,13 +132,14 @@ try:
     rows = cur.fetchall()
     logging.info(f'Found {str(len(rows))} tables')
     for row in rows:
-        tableName = row[4]
+        gameName = row[2]
+        gameDisplay = row[4]
         authorName = row[20]
-        if tableName and authorName:
-          fetchHighScoreImage(tableName, authorName, numRows, mediaPath)
+        if gameDisplay and authorName:
+          fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath)
         else:
-          if tableName:
-            scoreList = "Table: " + tableName + "\n"
+          if gameDisplay:
+            scoreList = "Table: " + gameDisplay + "\n"
           else:
             scoreList = "Table: \n"  
           if authorName:
@@ -146,11 +150,11 @@ try:
           scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
           print(scoreList + "\n\n")
           logging.info(f'Result:\n{scoreList}')
-          createImage(scoreList, mediaPath, tableName)
+          createImage(scoreList, mediaPath, gameName)
     conn.close
     logging.info(f'Finished updating all tables')
   else:
-    fetchHighScoreImage(tableName, authorName, numRows, mediaPath)
+    fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath)
 except Exception as err:
   logging.exception(err)
 
