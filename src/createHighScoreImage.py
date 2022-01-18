@@ -102,15 +102,15 @@ try:
     logging.info(f'exeName: {exeName}, dbPath: {dbPath}, mediaPath: {mediaPath}, numRows: {numRows}')
     updateAll = True
     logging.info(f'updateAll: {updateAll}')
-  elif len(sys.argv) == 5:
-    logging.info('Found 5 arguments')
+  elif len(sys.argv) == 6:
+    logging.info('Found 6 arguments')
     exeName = sys.argv[0]
     gameName = sys.argv[1]
     gameDisplay = sys.argv[2]
     authorName = sys.argv[3]
     mediaPath = sys.argv[4]
     numRows = int(sys.argv[5])
-    logging.info(f'exeName: {exeName}, gameName: ${gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, mediaPath: {mediaPath}, numRows: {numRows}')
+    logging.info(f'exeName: {exeName}, gameName: {gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, mediaPath: {mediaPath}, numRows: {numRows}')
     updateAll = False
     logging.info(f'updateAll: {updateAll}')
   else:
@@ -128,7 +128,7 @@ try:
     logging.info(f'Starting to update all tables')
     conn = sqlite3.connect(dbPath + "\\" + "PUPDatabase.db")
     cur = conn.cursor()
-    cur.execute("SELECT * FROM 'Games' WHERE EMUID = 1")
+    cur.execute("SELECT * FROM 'Games' WHERE EMUID = 1 ORDER BY GameDisplay")
     rows = cur.fetchall()
     logging.info(f'Found {str(len(rows))} tables')
     for row in rows:
