@@ -41,11 +41,11 @@ def createImage(scoreList, mediaPath, gameName):
   logging.info(f'fullPath: {fullPath}')
 
   if os.path.exists(fullPath):
-    logging.info(f'removing: {fullPath')
+    logging.info(f'removing: {fullPath}')
     os.remove(fullPath)
   
   with open(mediaPath + "\\" + gameName + ".png", "wb") as fh:
-      logging.info(f'creating: {fullPath')
+      logging.info(f'creating: {fullPath}')
       fh.write(base64.decodebytes(imageString.encode()))
 
 def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
