@@ -31,4 +31,4 @@ jobs:
         artifacts: "src/dist/windows/vpc-get-high-scores-image.exe,src/GetAllHighScores.bat,src/playsound.exe,src/UpdateHighScoreStart.mp3,src/UpdateHighScoreStop.mp3"
         token: ${{ secrets.GH_TOKEN }}
         commit: ${{ github.sha }}
-        tag: v0.9.6
+        tag: v0.9.7
