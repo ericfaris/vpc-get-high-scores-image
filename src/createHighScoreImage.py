@@ -2,6 +2,7 @@ import requests
 import json
 import base64
 import sys
+import os
 import urllib.parse
 from datetime import datetime
 import sqlite3
@@ -35,7 +36,11 @@ def createImage(scoreList, mediaPath, gameName):
 
   res = requests.request("POST", convertUri, headers=headers, data=payload)
   imageString = res.text.replace('data:image/png;base64,', '')
+  fullPath = mediaPath + "\\" + gameName + ".png"
 
+  if os.path.exists(fullPath):
+    os.remove(fullPath)
+  
   with open(mediaPath + "\\" + gameName + ".png", "wb") as fh:
       fh.write(base64.decodebytes(imageString.encode()))
 
