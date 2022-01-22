@@ -2,6 +2,7 @@ import requests
 import json
 import base64
 import sys
+import datetime
 import os
 import urllib.parse
 from datetime import datetime
@@ -16,6 +17,10 @@ headers = {
   'Authorization': 'Bearer ODYwMzEwODgxNTc3NDY3OTA0.YN5Y8Q.0P5EwvlXHG6YOtNfkWKt_xOFTtc',
   'Content-Type': 'application/json'
 }
+
+def set_file_last_modified(file_path, dt):
+    dt_epoch = dt.timestamp()
+    os.utime(file_path, (dt_epoch, dt_epoch))
 
 def log_setup():
     logName = 'vpc-get-high-scores-image.log'
@@ -47,6 +52,9 @@ def createImage(scoreList, mediaPath, gameName):
   with open(mediaPath + "\\" + gameName + ".png", "wb") as fh:
       logging.info(f'creating: {fullPath}')
       fh.write(base64.decodebytes(imageString.encode()))
+      
+  now = datetime.datetime.now()
+  set_file_last_modified(fullPath, now)
 
 def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
   logging.info(f'----- fetchHighScoreImage Start')
