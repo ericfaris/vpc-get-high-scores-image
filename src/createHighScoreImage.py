@@ -53,7 +53,7 @@ def createImage(scoreList, mediaPath, gameName):
       logging.info(f'creating: {fullPath}')
       fh.write(base64.decodebytes(imageString.encode()))
       
-  now = datetime.datetime.now()
+  now = datetime.now()
   set_file_last_modified(fullPath, now)
 
 def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
