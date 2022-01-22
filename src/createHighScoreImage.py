@@ -154,6 +154,7 @@ try:
     conn.close
     logging.info(f'Finished updating all tables')
   else:
+    logging.info(f'Starting to update 1 table: ' + gameDisplay)
     fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath)
 except Exception as err:
   logging.exception(err)
