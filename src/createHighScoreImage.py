@@ -10,6 +10,7 @@ import sqlite3
 import logging
 from logging.handlers import RotatingFileHandler
 import time
+import filedate
 
 apiBaseUri = "http://vpcbot.golandry.net:6080/api/v1/"
 convertUri = apiBaseUri + "convert"
@@ -52,10 +53,13 @@ def createImage(scoreList, mediaPath, gameName):
   with open(mediaPath + "\\" + gameName + ".png", "wb") as fh:
       logging.info(f'creating: {fullPath}')
       fh.write(base64.decodebytes(imageString.encode()))
-      
-  now = datetime.now()
-  set_file_last_modified(fullPath, now)
 
+  filedate.File(fullPath).set(
+    created = datetime.now(),
+    modified = datetime.now(),
+    accessed = datetime.now()
+  )
+      
 def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
   logging.info(f'----- fetchHighScoreImage Start')
   logging.info(f'gameName: {gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, numRows: {numRows}, mediaPath: {mediaPath}')
@@ -110,7 +114,7 @@ updateAll = False
 numRows = 5
 
 try:
-  print(sys.argv[1:])
+  logging.info(f'args: {sys.argv[1:]}')
   if len(sys.argv) == 4:
     logging.info('Found 4 arguments ')
     exeName = sys.argv[0]
@@ -139,7 +143,7 @@ try:
     authorName = "VPW"
     mediaPath = "c:\\temp"
     numRows = 5
-    updateAll = True
+    updateAll = False
     logging.info(f'updateAll: {updateAll}')
 
   if updateAll:
