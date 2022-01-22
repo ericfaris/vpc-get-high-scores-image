@@ -37,16 +37,20 @@ def createImage(scoreList, mediaPath, gameName):
   res = requests.request("POST", convertUri, headers=headers, data=payload)
   imageString = res.text.replace('data:image/png;base64,', '')
   fullPath = mediaPath + "\\" + gameName + ".png"
+  
+  logging.info(f'fullPath: {fullPath}')
 
   if os.path.exists(fullPath):
+    logging.info(f'removing: {fullPath')
     os.remove(fullPath)
   
   with open(mediaPath + "\\" + gameName + ".png", "wb") as fh:
+      logging.info(f'creating: {fullPath')
       fh.write(base64.decodebytes(imageString.encode()))
 
 def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
   logging.info(f'----- fetchHighScoreImage Start')
-  logging.info(f'gameName: ${gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, numRows: {numRows}, mediaPath: {mediaPath}')
+  logging.info(f'gameName: {gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, numRows: {numRows}, mediaPath: {mediaPath}')
 
   scoreUri = apiBaseUri + "scoresByTableAndAuthor?tableName=" + urllib.parse.quote(gameDisplay) + "&authorName=" + urllib.parse.quote(authorName)
 
