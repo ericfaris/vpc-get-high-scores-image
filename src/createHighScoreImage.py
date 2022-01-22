@@ -98,6 +98,7 @@ updateAll = False
 numRows = 5
 
 try:
+  print(sys.argv[1:])
   if len(sys.argv) == 4:
     logging.info('Found 4 arguments ')
     exeName = sys.argv[0]
