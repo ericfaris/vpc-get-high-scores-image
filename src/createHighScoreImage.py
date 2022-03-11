@@ -11,6 +11,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import time
 import filedate
+import distutils.util
 
 apiBaseUri = "http://vpcbot.golandry.net:6080/api/v1/"
 convertUri = apiBaseUri + "convert"
@@ -60,11 +61,16 @@ def createImage(scoreList, mediaPath, gameName):
     accessed = datetime.now()
   )
       
-def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
+def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
   logging.info(f'----- fetchHighScoreImage Start')
-  logging.info(f'gameName: {gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, numRows: {numRows}, mediaPath: {mediaPath}')
+  logging.info(f'vpsId: {vpsId}, numRows: {numRows}, mediaPath: {mediaPath}')
 
-  scoreUri = apiBaseUri + "scoresByTableAndAuthor?tableName=" + urllib.parse.quote(gameDisplay) + "&authorName=" + urllib.parse.quote(authorName)
+  table = getTableFromPopperDB(vpsId, dbPath)
+  gameName = table[fieldNames.index("GameName")]
+  gameDisplay = table[fieldNames.index("GameDisplay")]
+  authorName = table[fieldNames.index("Author")]
+  
+  scoreUri = apiBaseUri + "scoresByVpsId?vpsId=" + urllib.parse.quote(vpsId)
 
   tables = (requests.request("GET", scoreUri, headers=headers)).json()
 
@@ -94,9 +100,9 @@ def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
           scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(int(score['score']))).rjust(scoreMaxLen) + "    " + score['versionNumber'].ljust(versionMaxLen) + "    " + score['posted'] + '\n'       
           i = i + 1
     else:
-      scoreList += "No scores have been posted for this \ntable and author.\n\n"
+      scoreList += "No scores have been posted for this table.\n\n"
   else:
-    scoreList += "Table and/or Author not found.\nDouble check these fields in Popper.\n\n"
+    scoreList += "VPS Id not found.\nDouble check that this table has the correct VPS Id in PinUP Popper.\n\n"
 
   scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
   print(scoreList + "\n\n")
@@ -106,60 +112,68 @@ def fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath):
 
   logging.info(f'----- fetchHighScoreImage End')
 
+def getTableFromPopperDB(vpsId, dbPath):
+    conn = sqlite3.connect(dbPath + "\\" + "PUPDatabase.db")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM 'Games' WHERE " + vpsIdField + " = '" + vpsId + "'")
+    table = cur.fetchone()
+    conn.close
+    return table
+
+
 
 log_setup()
 logging.info('--- INSTANCE STARTED ---')
 
 updateAll = False
 numRows = 5
+fieldNames = []
 
 try:
   logging.info(f'args: {sys.argv[1:]}')
-  if len(sys.argv) == 4:
-    logging.info('Found 4 arguments ')
+
+  if len(sys.argv) > 1:
+    logging.info('Found more than 0 arguments')
     exeName = sys.argv[0]
-    dbPath = sys.argv[1]
-    mediaPath = sys.argv[2]
-    numRows = int(sys.argv[3])
-    logging.info(f'exeName: {exeName}, dbPath: {dbPath}, mediaPath: {mediaPath}, numRows: {numRows}')
-    updateAll = True
-    logging.info(f'updateAll: {updateAll}')
-  elif len(sys.argv) == 6:
-    logging.info('Found 6 arguments')
-    exeName = sys.argv[0]
-    gameName = sys.argv[1]
-    gameDisplay = sys.argv[2]
-    authorName = sys.argv[3]
+    updateAll = distutils.util.strtobool(sys.argv[1])
+    vpsId = sys.argv[2]
+    vpsIdField = sys.argv[3]
+    dbPath = sys.argv[2]
     mediaPath = sys.argv[4]
     numRows = int(sys.argv[5])
-    logging.info(f'exeName: {exeName}, gameName: {gameName}, gameDisplay: {gameDisplay}, authorName: {authorName}, mediaPath: {mediaPath}, numRows: {numRows}')
-    updateAll = False
-    logging.info(f'updateAll: {updateAll}')
+    logging.info(f'exeName: {exeName}, updateAll: {updateAll}, vpsId: {vpsId}, vpsIdField: {vpsIdField}, dbPath: {dbPath}, mediaPath: {mediaPath}, numRows: {numRows}')
   else:
     logging.info('Found 0 arguments. Using default arguments for debugging')
+    updateAll = False
+    vpsId = "IQpZNVvo"
+    vpsIdField = "CUSTOM3"
     dbPath = "c:\\temp"
-    gameName = "Creature from the Black Lagoon (Bally 1992) Psiomicron 1.2"
-    gameDisplay = "Creature from the Black Lagoon (Bally 1992)"
-    authorName = "VPW"
     mediaPath = "c:\\temp"
     numRows = 5
-    updateAll = False
-    logging.info(f'updateAll: {updateAll}')
+
+  ## fetching all tables
+  conn = sqlite3.connect(dbPath + "\\" + "PUPDatabase.db")
+  cur = conn.cursor()
+  cur.execute("SELECT * FROM 'Games' WHERE EMUID = 1 ORDER BY GameDisplay")
+  fieldNames = [description[0] for description in cur.description]
+  rows = cur.fetchall()
+  conn.close
 
   if updateAll:
     logging.info(f'Starting to update all tables')
-    conn = sqlite3.connect(dbPath + "\\" + "PUPDatabase.db")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM 'Games' WHERE EMUID = 1 ORDER BY GameDisplay")
-    rows = cur.fetchall()
     logging.info(f'Found {str(len(rows))} tables')
     for row in rows:
-        gameName = row[2]
-        gameDisplay = row[4]
-        authorName = row[20]
-        if gameDisplay and authorName:
-          fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath)
+        gameName = row[fieldNames.index("GameName")]
+        gameDisplay = row[fieldNames.index("GameDisplay")]
+        authorName = row[fieldNames.index("Author")]
+        vpsId = row[fieldNames.index(vpsIdField)]
+        if vpsId:
+          fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath)
         else:
+          if vpsId:
+            scoreList = "VPS Id: " + vpsId + "\n"
+          else:
+            scoreList = "VPS Id: \n"  
           if gameDisplay:
             scoreList = "Table: " + gameDisplay + "\n"
           else:
@@ -168,16 +182,15 @@ try:
             scoreList += "Author: " + authorName + "\n\n"
           else:
             scoreList += "Author: \n\n"
-          scoreList += "Table and/or Author not found.  Double check these fields in Popper.\n\n"
+          scoreList += "VPS Id not found.  Double the VPS Id field in PinUP Popper.\n\n"
           scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
           print(scoreList + "\n\n")
           logging.info(f'Result:\n{scoreList}')
           createImage(scoreList, mediaPath, gameName)
-    conn.close
     logging.info(f'Finished updating all tables')
   else:
-    logging.info(f'Starting to update 1 table: ' + gameDisplay)
-    fetchHighScoreImage(gameName, gameDisplay, authorName, numRows, mediaPath)
+    logging.info(f'Starting to update 1 table: ' + vpsId)
+    fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath)
 except Exception as err:
   logging.exception(err)
 
