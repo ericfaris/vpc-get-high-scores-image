@@ -74,8 +74,8 @@ def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
 
   tables = (requests.request("GET", scoreUri, headers=headers)).json()
 
-  scoreList = "Game Name: " + gameName + "\n"
-  scoreList = "Screen Name: " + gameDisplay + "\n"
+  scoreList = "VPS Id (" + vpsIdField + "): " + vpsId + "\n"
+  scoreList += "Screen Name: " + gameDisplay + "\n"
   scoreList += "Author: " + authorName + "\n\n"
 
   if len(tables) > 0:
@@ -120,8 +120,6 @@ def getTableFromPopperDB(vpsId, dbPath):
     conn.close
     return table
 
-
-
 log_setup()
 logging.info('--- INSTANCE STARTED ---')
 
@@ -138,9 +136,9 @@ try:
     updateAll = distutils.util.strtobool(sys.argv[1])
     vpsId = sys.argv[2]
     vpsIdField = sys.argv[3]
-    dbPath = sys.argv[2]
-    mediaPath = sys.argv[4]
-    numRows = int(sys.argv[5])
+    dbPath = sys.argv[4]
+    mediaPath = sys.argv[5]
+    numRows = int(sys.argv[6])
     logging.info(f'exeName: {exeName}, updateAll: {updateAll}, vpsId: {vpsId}, vpsIdField: {vpsIdField}, dbPath: {dbPath}, mediaPath: {mediaPath}, numRows: {numRows}')
   else:
     logging.info('Found 0 arguments. Using default arguments for debugging')
