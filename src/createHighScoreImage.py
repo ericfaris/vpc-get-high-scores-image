@@ -102,7 +102,7 @@ def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
     else:
       scoreList += "No scores have been posted for this table.\n\n"
   else:
-    scoreList += "This table DOES NOT exist in the VPC High Score Corner.  Please contact @High Score Corner Mod to add this table in the high-score-corner channel on Discord. Please send the VPS ID in the message.\n\n"
+    scoreList += "This table DOES NOT exist in the VPC High Score Corner.\nPlease contact @High Score Corner Mod to add this \ntable in the high-score-corner channel on Discord.\nPlease send the VPS ID in the message.\n\n"
 
   scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
   print(scoreList + "\n\n")
