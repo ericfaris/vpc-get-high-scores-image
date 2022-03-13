@@ -2,9 +2,21 @@
 
 This tool will pull data and create high score images for PinUP Popper.
 
-**Instructions**:
+**Adding VPS Id to table(s) in PinUP Popper**:
 
-1. Confirm correct table name and author within Pinup Popper for every table you want to show high scores. **The table name and author of each table need to match what is in the VPC Discord High Score DB, exactly!**  You will need to make those changes in the Game Manager of "Pinup Popper Setup".
+1. This tool requires the use of the VPS ID from http://virtual-pinball-spreadsheet.web.ap (hereby known as VPS).  The easiest way to add the VPS Id to a table is through the import process via PinUP Popper.
+
+1a. Download an updated version of the puplookup.csv from VPS to the PinUPSystem folder:
+    ![image](https://user-images.githubusercontent.com/1703672/158044621-02b8ebba-1be9-4a75-b8a7-4e6cdfb711b9.png)
+
+1b. You will now need to open up the puplookup.csv file and change the last column name in the header row to the field name you want to import the VPS Id into the PinUP Popper DB.
+    - Example:  I want to store the VPS ID into the Custom3 field in Game Manager.  I am going to change the header row to look like this:
+    
+
+1c. You now need to import the puplookup.csv into PinUP Popper.  This is done by Pinup Popper Setup > Advanced Setup > Import CSV.   When the import completes, the VPS ID will now be imported into the field you renamed in the header, when you hit import in Game Manager.
+
+1d. You now need to re-import data for each table so it picks up the VPS ID into the field you determined in the puplookup.csv header.
+
 
 **Setup the batch file to run on Windows startup**
 
@@ -14,8 +26,8 @@ This tool will pull data and create high score images for PinUP Popper.
     
 
 3. Open `GetAllHighScores.bat` and edit line3 to conform to you folder structure.
-- "Full path of vpc-get-high-scores-image.exe" "Full path to PinUP System folder" "Full path to your media folder for Other2" "max number of rows to display in score list"
-- Example: `"C:\Pinball\PinUPSystem\Launch\vpc-get-high-scores-image.exe" "C:\Pinball\PinUPSystem" "C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2" "10"`
+- "Full path of vpc-get-high-scores-image.exe" "Update All High Scores" "VPS Id" "VPS Id Field Name" "Full path to PinUP System folder" "Full path to your media folder for Other2" "max number of rows to display in score list"
+- Example: `"C:\Pinball\PinUPSystem\Launch\vpc-get-high-scores-image.exe" "True" "" "Custom3" "C:\Pinball\PinUPSystem" "C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2" "10"`
     
 5. Create a shortcut to `GetAllHighScores.bat`
 
@@ -25,7 +37,7 @@ This tool will pull data and create high score images for PinUP Popper.
 
 7. Pinup Popper Setup > Popper Setup Tab > Emulators > Visual Pinball X > Launch Setup Tab
     - Paste the following at the end of 1. **Launch Script** and 2. **Close Script**:
-        - `START /min "" "[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "[GAMENAME]" "[?GameDisplay?]" "[?Author?]" "[MEDIADIR]Other2" 10`
+        - `START /min "" "[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "False" "[CUSTOM3]" "Custom3" "C:\Pinball\PinUPSystem" "C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2" "10"'
         
 8. Save and Close
 
@@ -104,26 +116,3 @@ This tool will pull data and create high score images for PinUP Popper.
 33. Navigate to a table
 
 34. Press button to display `Other2` that you set in step #20.
-
-
-
-**High Score Image Explanations**
-
-
-**Problem:** The message indicates that the table name and/or author name does not exist in Popper.
-
-**Solution:** Modify the table name and author name in Popper to exactly match what is found in the VPC high-scores channel.
-
-
-
-
-**Problem:** The message indicates that the table name and/or author name exists in Popper, but was not found in the VPC high-scores database.
-
-**Solution:** Modify the table name and author name in Popper to exactly match what is found in the VPC high-scores channel.
-
-
-
-
-**Problem:** The message indicates that the table and author was a match, but no high scores were found.
-
-**Solution:** Score needs to be added via Discord.
