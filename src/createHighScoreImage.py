@@ -102,7 +102,7 @@ def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
     else:
       scoreList += "No scores have been posted for this table.\n\n"
   else:
-    scoreList += "VPS Id not found.\nDouble check that this table has the correct VPS Id in PinUP Popper.\n\n"
+    scoreList += "This table DOES NOT exist in the VPC High Score Corner.  Please contact @High Score Corner Mod to add this table in the high-score-corner channel on Discord. Please send the VPS ID in the message.\n\n"
 
   scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
   print(scoreList + "\n\n")
@@ -143,7 +143,7 @@ try:
   else:
     logging.info('Found 0 arguments. Using default arguments for debugging')
     updateAll = False
-    vpsId = "IQpZNVvo"
+    vpsId = "NTissEZP"
     vpsIdField = "CUSTOM3"
     dbPath = "c:\\temp"
     mediaPath = "c:\\temp"
