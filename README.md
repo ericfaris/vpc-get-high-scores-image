@@ -20,8 +20,7 @@ This tool will pull data and create high score images for PinUP Popper.
 **Setup the batch file to run on Windows startup**
 
 2. Using https://github.com/ericfaris/vpc-get-high-scores-image/releases, download the following files to the `C:\Pinball\PinUPSystem\PinupPopper\LAUNCH` folder (**IMPORTANT: BE AWARE THE LAUNCH FOLDER MIGHT BE IN A DIFFERENT LOCATION IF YOU HAVE USE BALLER INSTALLER**).
-    - ![image](https://user-images.githubusercontent.com/1703672/148884386-6ab53c8e-c254-44a6-af6f-e38ea9a11d14.png)
-    
+    - ![image](https://user-images.githubusercontent.com/1703672/158728829-66d670e2-8521-40ed-bdd4-968cdc835c18.png)   
     
 
 3. Open `POPMENU_GetHighScoresForAllTables.bat` and edit line 3 to conform to you folder structure.
@@ -29,7 +28,6 @@ This tool will pull data and create high score images for PinUP Popper.
     - Example: `"%_curloc%\vpc-get-high-scores-image.exe" "True" "" "Custom3" "%_ParentFolderName%" "%_ParentFolderName%\POPmedia\Visual Pinball X\Other2" "10"`
         - **You will need change the CUSTOM3 field above to match the field you have chosen to house the VPS Id in Step 1 - 1d**
 
-    
 4. Create a shortcut to `POPMENU_GetHighScoresForAllTables.bat`
 
 5. Copy the shortcut to your Windows startup folder
