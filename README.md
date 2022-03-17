@@ -95,3 +95,11 @@ This tool will pull data and create high score images for PinUP Popper.
 25. Navigate to a table
 
 26. Press button to display Other2 that you set in step #19.
+
+**Refreshing All HIgh Scores While in PinUP Popper**
+
+27.  Get to the Operator Menu in PinUP Popper
+
+28.  Scroll to Custom Scripts
+
+29.  Press GetHighScoresForALlTables
