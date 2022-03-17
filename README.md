@@ -6,15 +6,15 @@ This tool will pull data and create high score images for PinUP Popper.
 
 1. This tool requires the use of the VPS ID from http://virtual-pinball-spreadsheet.web.ap (hereby known as VPS).  The easiest way to add the VPS Id to a table is through the import process via PinUP Popper.
 
-**1a.** Download an updated version of the puplookup.csv from VPS to the PinUPSystem folder:
+  **1a.** Download an updated version of the puplookup.csv from VPS to the PinUPSystem folder:
     ![image](https://user-images.githubusercontent.com/1703672/158044621-02b8ebba-1be9-4a75-b8a7-4e6cdfb711b9.png)
 
-**1b.** You will now need to open up the puplookup.csv file and change the last column name in the header row to the field name you want to import the VPS Id into the PinUP Popper DB.
+  **1b.** You will now need to open up the puplookup.csv file and change the last column name in the header row to the field name you want to import the VPS Id into the PinUP Popper DB.
     - Example:  I want to store the VPS ID into the Custom3 field in Game Manager.  I will change the last field to `Custom3`
-    
-**1c.** You now need to import the puplookup.csv into PinUP Popper.  This is done by Pinup Popper Setup > Advanced Setup > Import CSV.   When the import completes, the VPS ID will now be imported into the field you renamed in the header, when you hit import in Game Manager.
+ 
+ **1c.** You now need to import the puplookup.csv into PinUP Popper.  This is done by Pinup Popper Setup > Advanced Setup > Import CSV.   When the import completes, the VPS ID will now be imported into the field you renamed in the header, when you hit import in Game Manager.
 
-**1d.** You now need to re-import data for each table so it picks up the VPS ID into the field you determined in the puplookup.csv header.
+ **1d.** You now need to re-import data for each table so it picks up the VPS ID into the field you determined in the puplookup.csv header.
 
 
 **Setup the batch file to run on Windows startup**
