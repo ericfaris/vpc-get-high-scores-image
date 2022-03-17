@@ -28,7 +28,7 @@ jobs:
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "src/dist/windows/vpc-get-high-scores-image.exe,src/GetAllHighScores.bat,src/playsound.exe,src/UpdateHighScoreStart.mp3,src/UpdateHighScoreStop.mp3"
+        artifacts: "src/dist/windows/vpc-get-high-scores-image.exe,src/POPMENU_GetHighScoresForAllTables.bat,src/playsound.exe,src/UpdateHighScoreStart.mp3,src/UpdateHighScoreStop.mp3"
         token: ${{ secrets.GH_TOKEN }}
         commit: ${{ github.sha }}
-        tag: v1.1.4
+        tag: v1.1.5
