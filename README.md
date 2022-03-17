@@ -83,3 +83,17 @@ This tool will pull data and create high score images for PinUP Popper.
 20. Click "Close" button
 
 21. On "PinUP Popper Setup" window, click "Exit Setup" button
+
+**Test Getting High Scores**
+
+22. Navigate to the C:\Pinball\PinUPSystem\PinupPopper\LAUNCH folder
+
+23. Run GetAllHighScores.bat
+    You should see a cmd window start executing and pulling down the images
+    You should also be able to check your C:\Pinball\PinUPSystem\POPMedia\Visual Pinball     X\Other2 to see the high score images being created.
+
+24. Run PinUP Popper
+
+25. Navigate to a table
+
+26. Press button to display Other2 that you set in step #19.
