@@ -36,14 +36,14 @@ def log_setup():
     logger.addHandler(log_handler)
     logger.setLevel(logging.INFO)
 
-def createImage(scoreList, mediaPath, gameName):
+def createImage(scoreList, mediaPath, gameName, fileNameSuffix):
   payload = json.dumps({
     "text": scoreList
   })
 
   res = requests.request("POST", convertUri, headers=headers, data=payload)
   imageString = res.text.replace('data:image/png;base64,', '')
-  fullPath = mediaPath + "\\" + gameName + ".png"
+  fullPath = mediaPath + "\\" + gameName + fileNameSuffix + ".png"
   
   logging.info(f'fullPath: {fullPath}')
 
@@ -51,7 +51,7 @@ def createImage(scoreList, mediaPath, gameName):
     logging.info(f'removing: {fullPath}')
     os.remove(fullPath)
   
-  with open(mediaPath + "\\" + gameName + ".png", "wb") as fh:
+  with open(fullPath, "wb") as fh:
       logging.info(f'creating: {fullPath}')
       fh.write(base64.decodebytes(imageString.encode()))
 
@@ -108,7 +108,7 @@ def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
   print(scoreList + "\n\n")
   logging.info(f'Result:\n{scoreList}')
 
-  createImage(scoreList, mediaPath, gameName)
+  createImage(scoreList, mediaPath, gameName, fileNameSuffix)
 
   logging.info(f'----- fetchHighScoreImage End')
 
@@ -139,7 +139,8 @@ try:
     dbPath = sys.argv[4]
     mediaPath = sys.argv[5]
     numRows = int(sys.argv[6])
-    logging.info(f'exeName: {exeName}, updateAll: {updateAll}, vpsId: {vpsId}, vpsIdField: {vpsIdField}, dbPath: {dbPath}, mediaPath: {mediaPath}, numRows: {numRows}')
+    fileNameSuffix = sys.argv[7]
+    logging.info(f'exeName: {exeName}, updateAll: {updateAll}, vpsId: {vpsId}, vpsIdField: {vpsIdField}, dbPath: {dbPath}, mediaPath: {mediaPath}, numRows: {numRows}, fileNameSuffix: ${fileNameSuffix}')
   else:
     logging.info('Found 0 arguments. Using default arguments for debugging')
     updateAll = False
@@ -148,6 +149,7 @@ try:
     dbPath = "c:\\temp"
     mediaPath = "c:\\temp"
     numRows = 5
+    fileNameSuffix = ""
 
   ## fetching all tables
   conn = sqlite3.connect(dbPath + "\\" + "PUPDatabase.db")
@@ -184,7 +186,7 @@ try:
           scoreList += "\nupdated: " +  datetime.now().strftime("%m/%d/%Y %H:%M:%S")
           print(scoreList + "\n\n")
           logging.info(f'Result:\n{scoreList}')
-          createImage(scoreList, mediaPath, gameName)
+          createImage(scoreList, mediaPath, gameName, fileNameSuffix)
     logging.info(f'Finished updating all tables')
   else:
     logging.info(f'Starting to update 1 table: ' + vpsId)

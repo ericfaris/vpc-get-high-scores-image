@@ -24,8 +24,8 @@ This tool will pull data and create high score images for PinUP Popper.
     
 
 3. Open `POPMENU_GetHighScoresForAllTables.bat` and edit line 3 to conform to you folder structure.
-    - "Full path of vpc-get-high-scores-image.exe" "Update High Scores For All Tables" "VPS Id" "VPS Id Field Name" "Full path to PinUP System folder" "Full path to your media folder for Other2" "max number of rows to display in score list"
-    - Example: `"%_curloc%\vpc-get-high-scores-image.exe" "True" "" "CUSTOM3" "%_ParentFolderName%" "%_ParentFolderName%\POPmedia\Visual Pinball X\Other2" "10"`
+    - "Full path of vpc-get-high-scores-image.exe" "Update High Scores For All Tables" "VPS Id" "VPS Id Field Name" "Full path to PinUP System folder" "Full path to your media folder for Other2" "max number of rows to display in score list" "suffix to add to filenamein case you want to use the PinUP Pability to have multiple files in a particular media folder"
+    - Example: `"%_curloc%\vpc-get-high-scores-image.exe" "True" "" "CUSTOM3" "%_ParentFolderName%" "%_ParentFolderName%\POPmedia\Visual Pinball X\Other2" "10" ""`
         - **You will need change the CUSTOM3 field above to match the field you have chosen to house the VPS Id in Step 1 - 1d**
 
 4. Create a shortcut to `POPMENU_GetHighScoresForAllTables.bat`
@@ -36,7 +36,7 @@ This tool will pull data and create high score images for PinUP Popper.
 
 6. Pinup Popper Setup > Popper Setup Tab > Emulators > Visual Pinball X > Launch Setup Tab
     - Paste the following at the end of 1. **Launch Script** and 2. **Close Script**:
-        - `START /min "" "[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "False" "[CUSTOM3]" "CUSTOM3" "C:\Pinball\PinUPSystem" "C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2" "10"`
+        - `START /min "" "[STARTDIR]LAUNCH\vpc-get-high-scores-image.exe" "False" "[CUSTOM3]" "CUSTOM3" "C:\Pinball\PinUPSystem" "C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2" "10" ""`
             - **You will need change the CUSTOM3 fields above to match the field you have chosen to house the VPS Id in Step 1 - 1d**
         
 7. Save and Close
