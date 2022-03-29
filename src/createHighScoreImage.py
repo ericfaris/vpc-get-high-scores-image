@@ -13,7 +13,7 @@ import time
 import filedate
 import distutils.util
 
-apiBaseUri = "http://vpcbot.golandry.net:6080/api/v1/"
+apiBaseUri = "https://virtualpinballchat.com:6080/api/v1/"
 convertUri = apiBaseUri + "convert"
 headers = {
   'Authorization': 'Bearer ODYwMzEwODgxNTc3NDY3OTA0.YN5Y8Q.0P5EwvlXHG6YOtNfkWKt_xOFTtc',
