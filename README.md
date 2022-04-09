@@ -24,7 +24,7 @@ This tool will pull data and create high score images for PinUP Popper to displa
     
 
 3. Open `POPMENU_GetHighScoresForAllTables.bat` and edit line 3 to conform to you folder structure.
-    - "Full path of vpc-get-high-scores-image.exe" "Update High Scores For All Tables" "VPS Id" "VPS Id Field Name" "Full path to PinUP System folder" "Full path to your media folder for Other2" "max number of rows to display in score list" "suffix to add to filenamein case you want to use the PinUP Pability to have multiple files in a particular media folder"
+    - "Full path of vpc-get-high-scores-image.exe" "Update High Scores For All Tables" "VPS Id" "VPS Id Field Name" "Full path to PinUP System folder" "Full path to your media folder for Other2" "max number of rows to display in score list" "suffix to add to filename in case you want to use the PinUP Popper ability to have multiple files in a particular media folder"
     - Example: `"%_curloc%\vpc-get-high-scores-image.exe" "True" "" "CUSTOM3" "%_ParentFolderName%" "%_ParentFolderName%\POPmedia\Visual Pinball X\Other2" "10" ""`
         - **You will need change the CUSTOM3 field above to match the field you have chosen to house the VPS Id in Step 1 - 1d**
 
@@ -86,9 +86,9 @@ This tool will pull data and create high score images for PinUP Popper to displa
 
 22. Navigate to the C:\Pinball\PinUPSystem\PinupPopper\LAUNCH folder
 
-23. Run GetAllHighScores.bat
-    You should see a cmd window start executing and pulling down the images
-    You should also be able to check your C:\Pinball\PinUPSystem\POPMedia\Visual Pinball     X\Other2 to see the high score images being created.
+23. Run `POPMENU_GetHighScoresForAllTables.bat` 
+    You should see a command window start executing and pulling down the images...
+    You should also be able to check your `C:\Pinball\PinUPSystem\POPMedia\Visual Pinball X\Other2` folder to see the high score images being created.
 
 24. Run PinUP Popper
 
@@ -96,10 +96,10 @@ This tool will pull data and create high score images for PinUP Popper to displa
 
 26. Press button to display Other2 that you set in step #19.
 
-**Refreshing All HIgh Scores While in PinUP Popper**
+**Refreshing All High Scores While in PinUP Popper**
 
 27.  Get to the Operator Menu in PinUP Popper
 
 28.  Scroll to Custom Scripts
 
-29.  Press GetHighScoresForALlTables
+29.  Press GetHighScoresForAllTables
