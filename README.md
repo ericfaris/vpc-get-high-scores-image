@@ -2,7 +2,9 @@
 
 This tool will pull data and create high score images for PinUP Popper to display when a mapped buttin is pressed.  This brings the VPC High Scores onto your cab.  It can update on startup of your cab and when entering and exiting the table.
 
-**Adding VPS Id to table(s) in PinUP Popper**:
+**CAUTION:  Please make sure you backup your PinUP Popper DB before making these changes!!!
+
+****Adding VPS Id to table(s) in PinUP Popper**:
 
 1. This tool requires the use of the VPS ID from http://virtual-pinball-spreadsheet.web.app (hereby known as VPS).  The easiest way to add the VPS Id to a table is through the import process via PinUP Popper.
 
