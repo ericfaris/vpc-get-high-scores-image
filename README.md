@@ -1,6 +1,6 @@
 # vpc-get-high-scores-image
 
-This tool will pull data and create high score images for PinUP Popper to display when a mapped buttin is pressed.  This brings the VPC High Scores onto your cab.  It can update on startup of your cab and when entering and exiting the table.
+This tool will pull data and create high score images for PinUP Popper to display when a mapped button is pressed.  This brings the VPC High Scores onto your cab.  It can update on startup of your cab and when entering and exiting the table.
 
 **CAUTION:  Please make sure you backup your PinUP Popper DB before making these changes!!!**
 
