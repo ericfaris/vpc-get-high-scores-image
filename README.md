@@ -6,6 +6,10 @@ This tool will pull data and create high score images for PinUP Popper to displa
 
 1. This tool requires the use of the VPS ID from http://virtual-pinball-spreadsheet.web.app (hereby known as VPS).  The easiest way to add the VPS Id to a table is through the import process via PinUP Popper.
 
+You can see the VPS Id for a table by using the instruction in the image below:
+![image](https://user-images.githubusercontent.com/1703672/162555475-e02046a8-45ab-45d7-8845-6ae3411d9033.png)
+
+
   **1a.** Download an updated version of the puplookup.csv from VPS to the PinUPSystem folder:
     ![image](https://user-images.githubusercontent.com/1703672/158044621-02b8ebba-1be9-4a75-b8a7-4e6cdfb711b9.png)
 
