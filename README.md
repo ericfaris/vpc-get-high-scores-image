@@ -1,6 +1,6 @@
 # vpc-get-high-scores-image
 
-This tool will pull data and create high score images for PinUP Popper.
+This tool will pull data and create high score images for PinUP Popper to display when a mapped buttin is pressed.  This brings the VPC High Scores onto your cab.  It can update on startup of your cab and when entering and exiting the table.
 
 **Adding VPS Id to table(s) in PinUP Popper**:
 
