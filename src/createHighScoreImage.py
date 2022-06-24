@@ -62,43 +62,48 @@ def createImage(scoreList, mediaPath, gameName, fileNameSuffix):
   )
       
 def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
-  logging.info(f'----- fetchHighScoreImage Start')
+  logging.info(f'\n\n----- fetchHighScoreImage Start')
   logging.info(f'vpsId: {vpsId}, numRows: {numRows}, mediaPath: {mediaPath}')
 
   table = getTableFromPopperDB(vpsId, dbPath)
   gameName = table[fieldNames.index("GameName")]
   gameDisplay = table[fieldNames.index("GameDisplay")]
   authorName = table[fieldNames.index("Author")]
-  
-  scoreUri = apiBaseUri + "scoresByVpsId?vpsId=" + urllib.parse.quote(vpsId)
-
-  tables = (requests.request("GET", scoreUri, headers=headers)).json()
-
   scoreList = "VPS Id (" + vpsIdField + "): " + vpsId + "\n"
   scoreList += "Screen Name: " + gameDisplay + "\n"
   scoreList += "Author: " + authorName + "\n\n"
+ 
+  scoreUri = apiBaseUri + "scoresByVpsId?vpsId=" + urllib.parse.quote(vpsId)
+  tables = (requests.request("GET", scoreUri, headers=headers)).json()
 
   if len(tables) > 0:
     limitedList = tables[0]['scores'][:numRows]
 
     if len(tables[0]['scores']) > 0:
-      rankMaxLength = len(str("Rank"))
-      userNameMaxLen = max(len(x['user']['username']) for x in limitedList)
-      scoreMaxLen = max(max(len(str("{:,}".format(int(x['score'])))) for x in limitedList), len("Score"))
-      versionMaxLen = max(max(len(x['versionNumber']) for x in limitedList), len("Version"))
-      postedMaxLen = max(max(len(x['posted']) for x in limitedList), len("Posted"))
 
-      scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Version".ljust(versionMaxLen)  + "    " + "Posted" + '\n'       
-      scoreList += "".ljust(rankMaxLength, "-") + "  " + "".ljust(userNameMaxLen, "-") + "    " + "".rjust(scoreMaxLen, "-") + "    " + "".ljust(versionMaxLen, "-") + "    " + "".ljust(postedMaxLen, "-") + '\n'       
+      try:
+        hasDataErrors = False;
+        rankMaxLength = len(str("Rank"))
+        userNameMaxLen = max(len(x['user']['username']) for x in limitedList)
+        scoreMaxLen = max(max(len(str("{:,}".format(int(x['score'])))) for x in limitedList), len("Score"))
+        versionMaxLen = max(max(len(x['versionNumber']) for x in limitedList), len("Version"))
+        postedMaxLen = max(max(len(x['posted']) for x in limitedList), len("Posted"))
+      except Exception as err:
+        hasDataErrors = True;
+        scoreList += "This table has invalid/bad data in the VPC High Score DB.  Please contact @ericfaris.\n\n"
 
-      i = 1
+      if hasDataErrors == False:
+        scoreList += "Rank".ljust(rankMaxLength) + "  " + "User".ljust(userNameMaxLen) + "    " + "Score".ljust(scoreMaxLen) + "    " + "Version".ljust(versionMaxLen)  + "    " + "Posted" + '\n'       
+        scoreList += "".ljust(rankMaxLength, "-") + "  " + "".ljust(userNameMaxLen, "-") + "    " + "".rjust(scoreMaxLen, "-") + "    " + "".ljust(versionMaxLen, "-") + "    " + "".ljust(postedMaxLen, "-") + '\n'       
 
-      numRows = min(numRows, len(tables[0]['scores']) ) 
+        i = 1
 
-      for score in limitedList:
-        if score.get('user'):
-          scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(int(score['score']))).rjust(scoreMaxLen) + "    " + score['versionNumber'].ljust(versionMaxLen) + "    " + score['posted'] + '\n'       
-          i = i + 1
+        numRows = min(numRows, len(tables[0]['scores']) ) 
+
+        for score in limitedList:
+          if score.get('user'):
+            scoreList += str(i).rjust(rankMaxLength) + "  " + score['user']['username'].ljust(userNameMaxLen) + "    " + str("{:,}".format(int(score['score']))).rjust(scoreMaxLen) + "    " + score['versionNumber'].ljust(versionMaxLen) + "    " + score['posted'] + '\n'       
+            i = i + 1
     else:
       scoreList += "No scores have been posted for this table.\n\n"
   else:
