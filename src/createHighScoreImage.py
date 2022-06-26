@@ -44,7 +44,15 @@ def createImage(scoreList, mediaPath, gameName, fileNameSuffix):
     "text": scoreList
   })
 
-  res = requests.request("POST", convertUri, headers=headers, data=payload)
+  #res = requests.request("POST", convertUri, headers=headers, data=payload)
+  
+  session = requests.Session()
+  retry = Retry(connect=3, backoff_factor=1.0)
+  adapter = HTTPAdapter(max_retries=retry)
+  session.mount('http://', adapter)
+  session.mount('https://', adapter)
+  res = session.request("POST", convertUri, headers=headers, data=payload)
+
   imageString = res.text.replace('data:image/png;base64,', '')
   fullPath = mediaPath + "\\" + gameName + fileNameSuffix + ".png"
   
