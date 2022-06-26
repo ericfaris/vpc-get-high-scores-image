@@ -12,6 +12,9 @@ from logging.handlers import RotatingFileHandler
 import time
 import filedate
 import distutils.util
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry;
 
 apiBaseUri = "https://virtualpinballchat.com:6080/api/v1/"
 convertUri = apiBaseUri + "convert"
@@ -74,7 +77,15 @@ def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
   scoreList += "Author: " + authorName + "\n\n"
  
   scoreUri = apiBaseUri + "scoresByVpsId?vpsId=" + urllib.parse.quote(vpsId)
-  tables = (requests.request("GET", scoreUri, headers=headers)).json()
+  #tables = (requests.request("GET", scoreUri, headers=headers)).json()
+
+  session = requests.Session()
+  retry = Retry(connect=3, backoff_factor=1.0)
+  adapter = HTTPAdapter(max_retries=retry)
+  session.mount('http://', adapter)
+  session.mount('https://', adapter)
+
+  tables = (session.get(scoreUri)).json()
 
   if len(tables) > 0:
     limitedList = tables[0]['scores'][:numRows]
