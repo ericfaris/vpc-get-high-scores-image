@@ -16,8 +16,9 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry;
 
-apiBaseUri = "https://virtualpinballchat.com:8443/vps/api/v1/"
-convertUri = apiBaseUri + "convert"
+apiBaseUri = "https://virtualpinballchat.com:8443"
+scoreUri = apiBaseUri + "/vps/api/v1/scoresByVpsId?vpsId="
+convertUri = apiBaseUri + "/vpc/api/v1/convert"
 headers = {
   'Authorization': 'Bearer ODYwMzEwODgxNTc3NDY3OTA0.YN5Y8Q.0P5EwvlXHG6YOtNfkWKt_xOFTtc',
   'Content-Type': 'application/json'
@@ -84,8 +85,7 @@ def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
   scoreList += "Screen Name: " + gameDisplay + "\n"
   scoreList += "Author: " + authorName + "\n\n"
  
-  scoreUri = apiBaseUri + "scoresByVpsId?vpsId=" + urllib.parse.quote(vpsId)
-  #tables = (requests.request("GET", scoreUri, headers=headers)).json()
+  scoreUri = scoreUri + urllib.parse.quote(vpsId)
 
   session = requests.Session()
   retry = Retry(connect=3, backoff_factor=1.0)
