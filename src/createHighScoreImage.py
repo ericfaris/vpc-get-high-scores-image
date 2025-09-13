@@ -85,7 +85,7 @@ def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
   scoreList += "Screen Name: " + gameDisplay + "\n"
   scoreList += "Author: " + authorName + "\n\n"
  
-  scoreUri = scoreUri + urllib.parse.quote(vpsId)
+  scoreFullUri = scoreUri + urllib.parse.quote(vpsId)
 
   session = requests.Session()
   retry = Retry(connect=3, backoff_factor=1.0)
@@ -93,7 +93,7 @@ def fetchHighScoreImage(vpsId, fieldNames, numRows, mediaPath):
   session.mount('http://', adapter)
   session.mount('https://', adapter)
 
-  tables = (session.get(scoreUri)).json()
+  tables = (session.get(scoreFullUri)).json()
 
   if len(tables) > 0:
     limitedList = tables[0]['scores'][:numRows]
